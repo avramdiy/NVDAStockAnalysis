@@ -26,4 +26,8 @@
 
 ### 4th Commit
 
+- Create two line plots on the same route, showing the color-coded lines for the aggregate monthly open and closing prices of 2010.
+
+- I can see there is a common historical support or resistance level around the ten dollar amount.
+
 ### 5th Commit

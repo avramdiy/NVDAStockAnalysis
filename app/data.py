@@ -54,19 +54,37 @@ def plot_monthly_open():
     # Convert the 'Date' column to datetime format
     df['Date'] = pd.to_datetime(df['Date'])
 
-    # Filter for the year 2000
+    # Filter for the years 2000 and 2010
     df_2000 = df[df['Date'].dt.year == 2000]
+    df_2010 = df[df['Date'].dt.year == 2010]
 
-     # Aggregate monthly open and close prices
+    # Aggregate monthly open and close prices for 2000
     df_2000['Month'] = df_2000['Date'].dt.month
-    monthly_open = df_2000.groupby('Month')['Open'].mean()
-    monthly_close = df_2000.groupby('Month')['Close'].mean()
+    monthly_open_2000 = df_2000.groupby('Month')['Open'].mean()
+    monthly_close_2000 = df_2000.groupby('Month')['Close'].mean()
+
+    # Aggregate monthly open and close prices for 2010
+    df_2010['Month'] = df_2010['Date'].dt.month
+    monthly_open_2010 = df_2010.groupby('Month')['Open'].mean()
+    monthly_close_2010 = df_2010.groupby('Month')['Close'].mean()
 
     # Plot the data
     plt.figure(figsize=(12, 8))
-    plt.plot(monthly_open.index, monthly_open.values, marker='o', linestyle='-', color='b', label='Average Open Price')
-    plt.plot(monthly_close.index, monthly_close.values, marker='s', linestyle='--', color='r', label='Average Close Price')
-    plt.title('Aggregate Monthly Open and Close Prices for 2000', fontsize=16)
+
+    # Plot for 2000 Open Prices
+    plt.plot(monthly_open_2000.index, monthly_open_2000.values, marker='o', linestyle='-', color='b', label='2000 Average Open Price')
+
+    # Plot for 2000 Close Prices
+    plt.plot(monthly_close_2000.index, monthly_close_2000.values, marker='s', linestyle='--', color='r', label='2000 Average Close Price')
+
+    # Plot for 2010 Open Prices
+    plt.plot(monthly_open_2010.index, monthly_open_2010.values, marker='o', linestyle='-', color='g', label='2010 Average Open Price')
+
+    # Plot for 2010 Close Prices
+    plt.plot(monthly_close_2010.index, monthly_close_2010.values, marker='s', linestyle='--', color='y', label='2010 Average Close Price')
+
+    # Customize the plot
+    plt.title('Aggregate Monthly Open and Close Prices for 2000 and 2010', fontsize=16)
     plt.xlabel('Month', fontsize=14)
     plt.ylabel('Price', fontsize=14)
     plt.xticks(range(1, 13))
