@@ -18,6 +18,12 @@
 
 ### 3rd Commit
 
+- Rename Dataset Table to "2010", not "2020"
+
+- Create a separate route and plot that shows the aggregate monthly open price for the year of 2000. We will use the months as the X axis, and the prices as the Y axis.
+
+- Add another line plotting the aggregate monthly close price for the year of 2000.
+
 ### 4th Commit
 
 ### 5th Commit

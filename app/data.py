@@ -1,5 +1,7 @@
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, Response
 import pandas as pd
+import matplotlib.pyplot as plt
+import io
 
 app = Flask(__name__)
 
@@ -33,13 +35,51 @@ def load_and_display():
     </head>
     <body>
         <div class="container">
-            <h1 class="mt-4">NVDA Data Table for 2000 and 2020</h1>
+            <h1 class="mt-4">NVDA Data Table for 2000 and 2010</h1>
             {table_html}
         </div>
     </body>
     </html>
     """
     return render_template_string(html_template)
+
+@app.route("/plot")
+def plot_monthly_open():
+    # File path
+    csv_file = r"C:\Users\Ev\Desktop\TRG Week 21\nvda.us.txt"
+
+    # Load the CSV directly into a Pandas DataFrame
+    df = pd.read_csv(csv_file)
+
+    # Convert the 'Date' column to datetime format
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    # Filter for the year 2000
+    df_2000 = df[df['Date'].dt.year == 2000]
+
+     # Aggregate monthly open and close prices
+    df_2000['Month'] = df_2000['Date'].dt.month
+    monthly_open = df_2000.groupby('Month')['Open'].mean()
+    monthly_close = df_2000.groupby('Month')['Close'].mean()
+
+    # Plot the data
+    plt.figure(figsize=(12, 8))
+    plt.plot(monthly_open.index, monthly_open.values, marker='o', linestyle='-', color='b', label='Average Open Price')
+    plt.plot(monthly_close.index, monthly_close.values, marker='s', linestyle='--', color='r', label='Average Close Price')
+    plt.title('Aggregate Monthly Open and Close Prices for 2000', fontsize=16)
+    plt.xlabel('Month', fontsize=14)
+    plt.ylabel('Price', fontsize=14)
+    plt.xticks(range(1, 13))
+    plt.legend(fontsize=12)
+    plt.grid(True)
+
+    # Save the plot to a BytesIO stream
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plt.close()
+
+    return Response(img, mimetype='image/png')
 
 if __name__ == "__main__":
     app.run(debug=True)
