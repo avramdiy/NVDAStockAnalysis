@@ -31,3 +31,13 @@
 - I can see there is a common historical support or resistance level around the ten dollar amount.
 
 ### 5th Commit
+
+- I want to add color-coded lines showing the aggregate monthly High and Low prices for 2000 and 2010 on the same plot.
+
+- By adding the aggregate monthly High and Low prices for both years, we can see a range in which the price moved monthly. However, the color-coding is messy.
+
+- Let's make the 2000 Open & Close lines solid blue. Make 2000 High and Low lines dashed blue of the same shade.
+
+- Make the 2010 Open & Close lines solid green. Make the 2010 High and Low lines dashed green of the same shade.
+
+- Now the range of price movement is visible to those who have not worked with the data in depth.
