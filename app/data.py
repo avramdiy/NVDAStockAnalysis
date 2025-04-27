@@ -11,20 +11,29 @@ def load_and_display():
     # Load the CSV directly into a Pandas DataFrame
     df = pd.read_csv(csv_file)
 
-    # Convert DataFrame to HTML
-    table_html = df.to_html(classes="table table-bordered", index=False)
+    # Convert the 'Date' column to datetime format
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    # Filter for the years 2000 and 2020
+    filtered_df = df[(df['Date'].dt.year == 2000) | (df['Date'].dt.year == 2010)]
+
+    # Remove the "OpenInt" column
+    filtered_df = filtered_df.drop(columns=["OpenInt"])
+
+    # Convert filtered DataFrame to HTML
+    table_html = filtered_df.to_html(classes="table table-bordered", index=False)
 
     # Render HTML page
     html_template = f"""
     <!doctype html>
     <html>
     <head>
-        <title>Data Table</title>
+        <title>Filtered Data Table</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
-            <h1 class="mt-4">NVDA Data Table</h1>
+            <h1 class="mt-4">NVDA Data Table for 2000 and 2020</h1>
             {table_html}
         </div>
     </body>
